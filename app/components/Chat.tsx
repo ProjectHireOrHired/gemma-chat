@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { TextField, IconButton, CircularProgress, Chip } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { motion } from "framer-motion";
+import ReactMarkdown from 'react-markdown';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -76,9 +77,9 @@ export default function Chat() {
     return (
         <div className="h-screen flex flex-col items-center justify-center bg-[#FDF6E3] text-black p-4">
             {/* Chat Window */}
-            <div className="w-full max-w-3xl flex flex-col flex-grow bg-[#F5DEB3] rounded-lg shadow-lg p-6 overflow-hidden">
+            <div className="xl:w-1/2 w-full flex flex-col flex-grow bg-[#F5DEB3] rounded-lg shadow-lg p-6 overflow-hidden">
                 {/* Chat Messages */}
-                <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-4 max-h-[500px]">
+                <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-4 h-full">
                     {messages.map((msg, index) => (
                         <motion.div
                             key={index}
@@ -90,51 +91,55 @@ export default function Chat() {
                                 width: "fit-content",
                                 minWidth: "50px",
                                 maxWidth: "80%",
+                                wordBreak: "break-word", // Add this line
+                                overflowWrap: "break-word", // Add this line for older browsers
                             }}
                         >
-                            {msg.content}
+                            <ReactMarkdown>{msg.content}</ReactMarkdown>
                         </motion.div>
                     ))}
                     {loading && <CircularProgress sx={{ color: "#FDF0C2" }} className="ml-4" />}
                 </div>
 
-                {/* Scrollable Suggested Prompts as Chips */}
-                <div className="mt-4 max-h-32 overflow-y-auto flex flex-wrap justify-center gap-2">
-                    {samplePrompts.map((sp, index) => (
-                        <Chip
-                            key={index}
-                            label={sp}
-                            onClick={() => setPrompt(sp)}
-                            className="bg-[#FDF0C2] text-[#5A4A32] hover:bg-[#FFD54F] cursor-pointer p-2"
-                            sx={{
-                                backgroundColor: "#FDF0C2",
-                                ":hover": {
-                                    backgroundColor: "#FFD54F"
-                                }
-                            }}
-                        />
-                    ))}
-                </div>
+                <div className="w-full sticky bottom-0">
+                    {/* Scrollable Suggested Prompts as Chips */}
+                    <div className="mt-4 max-h-32 overflow-y-auto flex flex-wrap justify-center gap-2">
+                        {samplePrompts.map((sp, index) => (
+                            <Chip
+                                key={index}
+                                label={sp}
+                                onClick={() => setPrompt(sp)}
+                                className="bg-[#FDF0C2] text-[#5A4A32] hover:bg-[#FFD54F] cursor-pointer p-2"
+                                sx={{
+                                    backgroundColor: "#FDF0C2",
+                                    ":hover": {
+                                        backgroundColor: "#FFD54F"
+                                    }
+                                }}
+                            />
+                        ))}
+                    </div>
 
-                {/* Styled Input Bar */}
-                <div className="p-4 mt-4">
-                    <div className="flex items-center bg-[#FDF0C2] rounded-2xl px-4 py-2 w-full">
-                        <TextField
-                            variant="standard"
-                            placeholder="Send a message..."
-                            fullWidth
-                            value={prompt}
-                            onChange={(e) => setPrompt(e.target.value)}
-                            multiline
-                            maxRows={4}
-                            InputProps={{
-                                disableUnderline: true,
-                                className: "text-black py-2"
-                            }}
-                        />
-                        <IconButton onClick={() => fetchResponse(prompt)} style={{ color: "#E5C07B" }}>
-                            <SendIcon />
-                        </IconButton>
+                    {/* Styled Input Bar */}
+                    <div className="p-4 mt-4">
+                        <div className="flex items-center bg-[#FDF0C2] rounded-2xl px-4 py-2 w-full">
+                            <TextField
+                                variant="standard"
+                                placeholder="Send a message..."
+                                fullWidth
+                                value={prompt}
+                                onChange={(e) => setPrompt(e.target.value)}
+                                multiline
+                                maxRows={4}
+                                InputProps={{
+                                    disableUnderline: true,
+                                    className: "text-black py-2"
+                                }}
+                            />
+                            <IconButton onClick={() => fetchResponse(prompt)} style={{ color: "#E5C07B" }}>
+                                <SendIcon />
+                            </IconButton>
+                        </div>
                     </div>
                 </div>
             </div>
