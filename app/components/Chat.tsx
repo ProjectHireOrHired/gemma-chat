@@ -77,7 +77,7 @@ export default function Chat() {
     return (
         <div className="h-screen flex flex-col items-center justify-center bg-[#FDF6E3] text-black p-4">
             {/* Chat Window */}
-            <div className="w-1/2 flex flex-col flex-grow bg-[#F5DEB3] rounded-lg shadow-lg p-6 overflow-hidden">
+            <div className="xl:w-1/2 w-full flex flex-col flex-grow bg-[#F5DEB3] rounded-lg shadow-lg p-6 overflow-hidden">
                 {/* Chat Messages */}
                 <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-4 h-full">
                     {messages.map((msg, index) => (
