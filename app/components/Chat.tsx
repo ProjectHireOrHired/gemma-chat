@@ -75,7 +75,7 @@ export default function Chat() {
     };
 
     return (
-        <div className="h-screen flex flex-col items-center justify-center bg-[#FDF6E3] text-black p-4">
+        <div className="h-screen flex flex-col items-center justify-center bg-[#FDF6E3] text-black py-4 px-12">
             {/* Chat Window */}
             <div className="xl:w-1/2 w-full flex flex-col flex-grow bg-[#F5DEB3] rounded-lg shadow-lg p-6 overflow-hidden">
                 {/* Chat Messages */}
@@ -136,7 +136,7 @@ export default function Chat() {
                                     className: "text-black py-2"
                                 }}
                             />
-                            <IconButton onClick={() => fetchResponse(prompt)} style={{ color: "#E5C07B" }}>
+                            <IconButton onClick={() => fetchResponse(prompt)}>
                                 <SendIcon />
                             </IconButton>
                         </div>
